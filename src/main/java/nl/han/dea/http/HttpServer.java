@@ -3,7 +3,7 @@ package nl.han.dea.http;
 import java.io.IOException;
 import java.net.ServerSocket;
 
-public class HttpServer {
+public class HttpServer extends Thread {
 
     private int tcpPort;
 
@@ -18,13 +18,17 @@ public class HttpServer {
     public void startServer() {
         try (
                 var serverSocket = new ServerSocket(this.tcpPort);
+
         ) {
-            System.out.println("Server accepting requests on port " + tcpPort);
-
-            var acceptedSocket = serverSocket.accept();
-            var connectionHandler = new ConnectionHandler(acceptedSocket);
-            connectionHandler.handle();
-
+            while (true) {
+                System.out.println("Server accepting requests on port " + tcpPort);
+                var acceptedSocket = serverSocket.accept();
+                Thread clientThread = new Thread(() -> {
+                    var connectionHandler = new ConnectionHandler(acceptedSocket);
+                    connectionHandler.handle();
+                });
+                clientThread.start();
+            }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

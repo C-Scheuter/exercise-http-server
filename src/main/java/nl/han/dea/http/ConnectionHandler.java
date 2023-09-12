@@ -11,19 +11,20 @@ public class ConnectionHandler {
             "HttpServer: Simple DEA Webserver\n" +
             "Content-Length: 190\n" +
             "Content-Type: text/html\n";
+//    private HtmlPageReader htmlPageReader = new HtmlPageReader();
 
-    private static final String HTTP_BODY = "<!DOCTYPE html>\n" +
-            "<html lang=\"en\">\n" +
-            "<head>\n" +
-            "<meta charset=\"UTF-8\">\n" +
-            "<title>Simple Http Server</title>\n" +
-            "</head>\n" +
-            "<body>\n" +
-            "<h1>Hi DEA folks!</h1>\n" +
-            "<p>This is a simple line in html.</p>\n" +
-            "</body>\n" +
-            "</html>\n" +
-            "\n";
+//    private static final String HTTP_BODY = "<!DOCTYPE html>\n" +
+//            "<html lang=\"en\">\n" +
+//            "<head>\n" +
+//            "<meta charset=\"UTF-8\">\n" +
+//            "<title>Simple Http Server</title>\n" +
+//            "</head>\n" +
+//            "<body>\n" +
+//            "<h1>Hi DEA folks!</h1>\n" +
+//            "<p>This is a simple line in html.</p>\n" +
+//            "</body>\n" +
+//            "</html>\n" +
+//            "\n";
     private Socket socket;
 
     public ConnectionHandler(Socket socket) {
@@ -59,7 +60,7 @@ public class ConnectionHandler {
         try {
             outputStreamWriter.write(HTTP_HEADERS);
             outputStreamWriter.newLine();
-            outputStreamWriter.write(HTTP_BODY);
+//            outputStreamWriter.write(htmlPageReader.readFile("Index.html"));
             outputStreamWriter.newLine();
             outputStreamWriter.flush();
         } catch (IOException e) {
