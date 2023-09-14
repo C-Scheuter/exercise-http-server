@@ -3,17 +3,23 @@ package nl.han.dea.http;
 import java.io.*;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.util.Locale;
 
 public class ConnectionHandler {
+    private HtmlPageReader htmlPageReader = new HtmlPageReader();
+    ZonedDateTime currentTime = ZonedDateTime.now();
+    DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("EEE, dd MMM yyyy HH:mm:ss Z", Locale.US);
 
-    private static final String HTTP_HEADERS = "HTTP/1.1 200 OK\n" +
-            "Date: Mon, 27 Aug 2018 14:08:55 +0200\n" +
+
+    private final String HTTP_HEADERS = "HTTP/1.1 200 OK\n" +
+            "Date:" + dateFormatter + "\n" +
             "HttpServer: Simple DEA Webserver\n" +
-            "Content-Length: 190\n" +
+            "Content-Length:" + htmlPageReader.setLength("index.html") + "\n" +
             "Content-Type: text/html\n";
-//    private HtmlPageReader htmlPageReader = new HtmlPageReader();
-
-//    private static final String HTTP_BODY = "<!DOCTYPE html>\n" +
+    //    private static final String HTTP_BODY = "<!DOCTYPE html>\n" +
 //            "<html lang=\"en\">\n" +
 //            "<head>\n" +
 //            "<meta charset=\"UTF-8\">\n" +
@@ -60,7 +66,7 @@ public class ConnectionHandler {
         try {
             outputStreamWriter.write(HTTP_HEADERS);
             outputStreamWriter.newLine();
-//            outputStreamWriter.write(htmlPageReader.readFile("Index.html"));
+            outputStreamWriter.write(htmlPageReader.readFile("index.html"));
             outputStreamWriter.newLine();
             outputStreamWriter.flush();
         } catch (IOException e) {
